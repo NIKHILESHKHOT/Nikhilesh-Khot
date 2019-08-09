@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+<body>
+<div style="background-color:skyblue; padding-bottom:50px;">
+    <img href="./logo.png" alt="logo"><h3 style="margin-left:50px;margin-top:-19px;">Location guru</h3> 
+</div>
+    
+<div class="container">
+		<h1><center>ADD USER</center></h1>
+    
+  <form autocomplete="off">
+         <div class="col-xs-4">
+    <div class="form-group">
+     <input type="text" name="name" class = "form-control" placeholder ="First Name" class = "col-xs-4" id="fname" required>
+    </div>
+	
+	<div class="form-group">
+<input type="text" name="lname" class="form-control" placeholder ="Last Name" required>
+    </div>
+		</div>
+		<div class="col-xs-4">
+	<div class="form-group">
+      <center><input type="text" name="mobilenumber" class="form-control" placeholder ="Contact Number" required>
+    </div>
+	
+    <div class="form-group">  
+      <input type="text" name="email" class="form-control" placeholder ="Email" required>
+    </div></center>
+	</div>
+		<div class="col-xs-4">
+	<div class="form-group">
+            <textarea type = "text" name="email" class="form-control" rows = "4" placeholder ="Address" style = "resize:none"></textarea>
+	</div>
+	<center><button type="submit" class="btn btn-success save-btn">ADD USER</button></center>	
+	</div>
+  </form>
+  </div>
+  
+  <br>
+  <div class="container">
+  <table class="table table-bordered data-table">
+    <thead>
+      <th>First Name</th>
+	  <th>Last Name</th>
+	  <th>Contact Number</th>
+      <th>Email</th>
+      <th width="200px">Action</th>
+    </thead>
+    <tbody>
+    
+    </tbody>
+  </table>
+   </div>
+<script type="text/javascript">
+   
+    $("form").submit(function(e){
+        e.preventDefault();
+        var name = $("input[name='name']").val();
+		var lname = $("input[name='lname']").val();
+		var mobilenumber = $("input[name='mobilenumber']").val();
+        var email = $("input[name='email']").val();
+		var address = $("input[name='address']").val();
+     
+        $(".data-table tbody").append("<tr data-name='"+name+"'tr data-lname='"+lname+"' data-email='"+email+"'data-mobilenumber='"+mobilenumber+"'data-address='"+address+"'><td>"+name+"</td><td>"+lname+"</td><td>"+mobilenumber+"</td><td>"+email+"</td><td><button class='btn btn-info btn-xs btn-edit'>Edit</button><button class='btn btn-danger btn-xs btn-delete'>Delete</button></td></tr>");
+    
+        $("input[name='name']").val('');
+		$("input[name='lname']").val('');
+		$("input[name='mobilenumber']").val('');
+        $("input[name='email']").val('');
+		$("input[name='address']").val('');
+    });
+   
+    $("body").on("click", ".btn-delete", function(){
+        $(this).parents("tr").remove();
+    });
+    
+    $("body").on("click", ".btn-edit", function(){
+        
+		var name = $(this).parents("tr").attr('data-name');
+		var lname = $(this).parents("tr").attr('data-lname');
+		var mobilenumber = $(this).parents("tr").attr('data-mobilenumber');
+        var email = $(this).parents("tr").attr('data-email');
+		
+    
+        $(this).parents("tr").find("td:eq(0)").html('<input name="edit_name" value="'+name+'">');
+		$(this).parents("tr").find("td:eq(1)").html('<input name="edit_lname" value="'+lname+'">');
+		$(this).parents("tr").find("td:eq(2)").html('<input name="edit_mobilenumber" value="'+mobilenumber+'">');
+        $(this).parents("tr").find("td:eq(3)").html('<input name="edit_email" value="'+email+'">');
+    
+        $(this).parents("tr").find("td:eq(4)").prepend("<button class='btn btn-info btn-xs btn-update'>Update</button><button class='btn btn-warning btn-xs btn-cancel'>Cancel</button>")
+        $(this).hide();
+    });
+   
+    $("body").on("click", ".btn-cancel", function(){
+        var name = $(this).parents("tr").attr('data-name');
+		var lname = $(this).parents("tr").attr('data-lname');
+		var mobilenumber = $(this).parents("tr").attr('data-mobilenumber');
+        var email = $(this).parents("tr").attr('data-email');
+    
+        $(this).parents("tr").find("td:eq(0)").text(name);
+		$(this).parents("tr").find("td:eq(1)").text(lname);
+		$(this).parents("tr").find("td:eq(2)").text(mobilenumber);
+        $(this).parents("tr").find("td:eq(3)").text(email);
+   
+        $(this).parents("tr").find(".btn-edit").show();
+        $(this).parents("tr").find(".btn-update").remove();
+        $(this).parents("tr").find(".btn-cancel").remove();
+    });
+   
+    $("body").on("click", ".btn-update", function(){
+        var name = $(this).parents("tr").find("input[name='edit_name']").val();
+		var lname = $(this).parents("tr").find("input[name='edit_lname']").val();
+		var mobilenumber = $(this).parents("tr").find("input[name='edit_mobilenumber']").val();
+        var email = $(this).parents("tr").find("input[name='edit_email']").val();
+    
+        $(this).parents("tr").find("td:eq(0)").text(name);
+		$(this).parents("tr").find("td:eq(1)").text(lname);
+		$(this).parents("tr").find("td:eq(2)").text(mobilenumber);
+        $(this).parents("tr").find("td:eq(3)").text(email);
+     
+        $(this).parents("tr").attr('data-name', name);
+		$(this).parents("tr").attr('data-lname', lname);
+		$(this).parents("tr").attr('data-mobilenumber', mobilenumber);
+        $(this).parents("tr").attr('data-email', email);
+    
+        $(this).parents("tr").find(".btn-edit").show();
+        $(this).parents("tr").find(".btn-cancel").remove();
+        $(this).parents("tr").find(".btn-update").remove();
+    });
+	</script>
+     
+</body>
